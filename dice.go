@@ -71,6 +71,16 @@ func (die *Die) Lowest(times int, take int) (results []int, allRolls []int, err 
 	return die.HighLow(times, 0-take)
 }
 
+func (die *Die) RollAtAdvantage() (result int, rolls []int, err error) {
+	_result, _rolls, err := die.Highest(2, 1)
+	return _result[0], _rolls, err
+}
+
+func (die *Die) RollAtDisadvantage() (result int, rolls []int, err error) {
+	_result, _rolls, err := die.Lowest(2, 1)
+	return _result[0], _rolls, err
+}
+
 var D20 = NewDie(20)
 var D4  = NewDie(4)
 var D6 =  NewDie(6)
@@ -78,6 +88,8 @@ var D8 =  NewDie(8)
 var D10 = NewDie(10)
 var D12 = NewDie(12)
 var D100 =NewDie(100)
+
+
 
 
 
