@@ -53,11 +53,7 @@ func TestDie_Highest(t *testing.T) {
 			t.Errorf("Encountered an error.")
 		}
 		rollsEnd := rolls[len(rolls)-take:]
-		fmt.Println(results)
-		fmt.Println(rollsEnd)
 		for i := 0; i < take; i++ {
-			fmt.Println(i)
-			fmt.Println(rollsEnd[i])
 			if results[i] != rollsEnd[i] {
 				t.Errorf("Returned Results do not match highest.  %v vs %v", results, rolls)
 			}
