@@ -21,7 +21,7 @@ func ParseOpposed(parseString string) *Opposed {
 	return opposed
 }
 
-func (opposed *Opposed) Evaluate() uint8 {
+func (opposed *Opposed) Evaluate() int8 {
 	if opposed.LeftResult.EndResult > opposed.RightResult.EndResult {
 		return -1
 	} else if opposed.LeftResult.EndResult == opposed.RightResult.EndResult {
