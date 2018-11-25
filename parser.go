@@ -30,6 +30,12 @@ func (parsed *ParseResult) Process() {
 	if parsed.Parsed || parsed.Error{
 		return
 	}
+	result, err := strconv.Atoi(parsed.ParseString)
+	if err == nil {
+		parsed.EndResult = result
+		parsed.Parsed = true
+		return
+	}
 	parsed.NumberOfRolls = 1
 	diceToRoll := diceNoRegex.FindStringSubmatch(parsed.ParseString)
 	if diceToRoll[0] != ""{
@@ -76,7 +82,7 @@ func (parsed *ParseResult) Process() {
 	parsed.Parsed = true
 	}
 
-func ParseString(parseString string) *ParseResult {
+func ParseDieCode(parseString string) *ParseResult {
 	parsed := new(ParseResult)
 	parsed.ParseString = parseString
 	parsed.Process()

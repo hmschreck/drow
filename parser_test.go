@@ -14,7 +14,7 @@ func TestParserXdY(t *testing.T) {
 	for _, die := range dice {
 		for i := 0; i < TestRuns; i++ {
 			rollTimes := rand.Intn(MaxDice) + 1
-			result := ParseString(fmt.Sprintf("%dd%d", rollTimes, die.Sides))
+			result := ParseDieCode(fmt.Sprintf("%dd%d", rollTimes, die.Sides))
 			fmt.Println(result)
 		}
 	}
@@ -23,7 +23,7 @@ func TestParserXdY(t *testing.T) {
 func TestParserdY(t *testing.T) {
 	for _, die := range dice {
 		for i := 0; i < TestRuns; i++ {
-			result := ParseString(fmt.Sprintf("d%d", die.Sides))
+			result := ParseDieCode(fmt.Sprintf("d%d", die.Sides))
 			if result.EndResult == 0 {
 				t.Errorf("Did not parse correctly")
 			}
@@ -36,7 +36,7 @@ func TestParserXdYPlusZ(t *testing.T) {
 		for i := 0; i < TestRuns; i++ {
 			rollTimes := rand.Intn(MaxDice) + 1
 			modifier := rand.Intn(ModRange)
-			result := ParseString(fmt.Sprintf("%dd%d+%d", rollTimes, die.Sides, modifier))
+			result := ParseDieCode(fmt.Sprintf("%dd%d+%d", rollTimes, die.Sides, modifier))
 			fmt.Println(result)
 			}
 	}
@@ -47,7 +47,7 @@ func TestParserXdYMinusZ(t *testing.T) {
 		for i := 0; i < TestRuns; i++ {
 			rollTimes := rand.Intn(MaxDice) + 1
 			modifier := rand.Intn(ModRange)
-			result := ParseString(fmt.Sprintf("%dd%d-%d", rollTimes, die.Sides, modifier))
+			result := ParseDieCode(fmt.Sprintf("%dd%d-%d", rollTimes, die.Sides, modifier))
 			fmt.Println(result)
 		}
 	}
@@ -58,7 +58,7 @@ func TestParserXdYhZ(t *testing.T) {
 		for i := 0; i < TestRuns; i++ {
 			rollTimes := rand.Intn(MaxDice)+1
 			highest := rand.Intn(rollTimes)+1
-			result := ParseString(fmt.Sprintf("%dd%dh%d", rollTimes, die.Sides, highest))
+			result := ParseDieCode(fmt.Sprintf("%dd%dh%d", rollTimes, die.Sides, highest))
 			fmt.Println(result)
 			}
 	}
@@ -68,7 +68,7 @@ func TestParseXdYh0(t *testing.T) {
 	for _, die := range dice {
 		rollTimes := 7
 		highest := 0
-		result := ParseString(fmt.Sprintf("%dd%dh%d", rollTimes, die.Sides, highest))
+		result := ParseDieCode(fmt.Sprintf("%dd%dh%d", rollTimes, die.Sides, highest))
 		if result.Error == false {
 			t.Errorf("Failed on highest=0")
 		}
@@ -80,7 +80,7 @@ func TestParserXdYlZ(t *testing.T) {
 		for i := 0; i < TestRuns; i++ {
 			rollTimes := rand.Intn(MaxDice)+1
 			highest := rand.Intn(rollTimes)+1
-			result := ParseString(fmt.Sprintf("%dd%dl%d", rollTimes, die.Sides, highest))
+			result := ParseDieCode(fmt.Sprintf("%dd%dl%d", rollTimes, die.Sides, highest))
 			fmt.Println(result)
 		}
 	}
@@ -90,7 +90,7 @@ func TestParseXdYl0(t *testing.T) {
 	for _, die := range dice {
 		rollTimes := 7
 		highest := 0
-		result := ParseString(fmt.Sprintf("%dd%dl%d", rollTimes, die.Sides, highest))
+		result := ParseDieCode(fmt.Sprintf("%dd%dl%d", rollTimes, die.Sides, highest))
 		if result.Error == false {
 			t.Errorf("Failed on highest=0")
 		}
