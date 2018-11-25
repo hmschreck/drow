@@ -21,17 +21,18 @@ type ParseResult struct {
 	Rolled Die
 	ParseString string
 	Parsed bool
+	Error bool
 }
 
 
 
 func (parsed *ParseResult) Process() {
-	if parsed.Parsed {
+	if parsed.Parsed || parsed.Error{
 		return
 	}
 	parsed.NumberOfRolls = 1
 	diceToRoll := diceNoRegex.FindStringSubmatch(parsed.ParseString)
-	if diceToRoll != nil {
+	if diceToRoll[0] != ""{
 		parsed.NumberOfRolls, _ = strconv.Atoi(diceToRoll[1])
 	}
 	sides := diceTypeRegex.FindStringSubmatch(parsed.ParseString)
@@ -39,6 +40,10 @@ func (parsed *ParseResult) Process() {
 	parsed.Rolled = *NewDie(sidesInt)
 	highLow := highLowRegex.FindStringSubmatch(parsed.ParseString)
 	if highLow != nil {
+		if highLow[2] == "0" {
+			parsed.Error = true
+			return
+		}
 		take, _ := strconv.Atoi(highLow[2])
 		if highLow[1] == "h" {
 			parsed.HighLow = take
@@ -60,7 +65,16 @@ func (parsed *ParseResult) Process() {
 	} else {
 		parsed.Modifier = 0
 	}
-}
+	if parsed.HighLow == 0 {
+		parsed.Rolls = parsed.Rolled.RollMultiple(parsed.NumberOfRolls)
+		parsed.UsedRolls = parsed.Rolls
+	} else {
+		parsed.UsedRolls, parsed.Rolls, _ = parsed.Rolled.HighLow(parsed.NumberOfRolls, parsed.HighLow)
+	}
+	parsed.TotalBeforeModifier = Sum(parsed.UsedRolls)
+	parsed.EndResult = parsed.TotalBeforeModifier + parsed.Modifier
+	parsed.Parsed = true
+	}
 
 func ParseString(parseString string) *ParseResult {
 	parsed := new(ParseResult)
